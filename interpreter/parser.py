@@ -40,6 +40,8 @@ class Parser:
                         out.append(Unit("string", {"value": i[1:]}))
                 else:
                     out.append(Unit("var", {"var": i}))
+        if string_mode:
+            raise SyntaxError("error: unclosed string")
         return Expression(out)
     def parse(self, code):
         tree = []

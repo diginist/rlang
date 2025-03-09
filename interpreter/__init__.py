@@ -23,14 +23,14 @@ class Interpreter:
                 var = tree[1]['var']
                 assign = self.ex_expr(expr)
                 if assign.type != vtype:
-                    raise RuntimeError("error: badly typed declaration")
+                    raise RuntimeError("error: wrong type for declaration")
                 self.vars[var] = self.ex_expr(expr)
                 self.vartypes[var] = vtype
             case "oldvar":
                 var = ['var']
                 assign = self.ex_expr(expr)
                 if assign.type != self.vartypes[var]:
-                    raise RuntimeError("error: badly typed assignment")
+                    raise RuntimeError("error: wrong type for assignment")
                 self.vars[var] = assign
             case "loop:":
                 pass
