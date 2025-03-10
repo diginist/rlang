@@ -1,27 +1,36 @@
 class Unit:
-    def __init__(self, utype: str, udict=None):
+    def __init__(self, utype: str, udict: dict | None = None):
         self.type = utype
         self.dict = {} if udict is None else udict
-    def __getitem__(self, item):
+
+    def __getitem__(self, item: any) -> any:
         return self.dict.__getitem__(item)
-    def __setitem__(self, key, value):
+
+    def __setitem__(self, key: any, value: any) -> any:
         self.dict.__setitem__(key, value)
+
     def __repr__(self):
         return f"<{self.type} unit {self.dict}>"
 
+
 class Expression:
-    def __init__(self, units):
+    def __init__(self, units: list[Unit]):
         self.units = units
 
+
 class Parser:
-    type_statements = [
-        "number", "bit", "string"
-    ]
+    type_statements = ["number", "bit", "string"]
     statements = type_statements + [
-        "loop:", "jump:",
-        "get", "send", "pass", "stop", "exit"
+        "loop:",
+        "jump:",
+        "get",
+        "send",
+        "pass",
+        "stop",
+        "exit",
     ]
-    def parse_expression(self, code):
+
+    def parse_expression(self, code: list[str]) -> Expression:
         out = []
         string_mode = False
         for i in code:
@@ -43,17 +52,18 @@ class Parser:
         if string_mode:
             raise SyntaxError("error: unclosed string")
         return Expression(out)
-    def parse(self, code):
-        tree = []
-        tokens = code.split(" ")
+
+    def parse(self, code: str) -> list[Unit]:
+        tree: list[Unit] = []
+        tokens: list[str] = code.split(" ")
         statement = tokens[0]
-        expr_token = 1 #which token does the expression start at
+        expr_token: int = 1  # which token does the expression start at
         if statement in self.statements:
             if statement in self.type_statements:
                 if tokens[1].endswith(":"):
                     var = tokens[1][:-1]
-                    tree.append(Unit("type", {'type': statement}))
-                    tree.append(Unit("newvar", {'var': var}))
+                    tree.append(Unit("type", {"type": statement}))
+                    tree.append(Unit("newvar", {"var": var}))
                     expr_token = 2
                 else:
                     raise SyntaxError("error: bad declaration")
@@ -63,7 +73,7 @@ class Parser:
             if len(statement) == 0:
                 tree.append(Unit("empty_statement", {}))
             elif statement.endswith(":"):
-                tree.append(Unit("oldvar", {'var': statement[:-1]}))
+                tree.append(Unit("oldvar", {"var": statement[:-1]}))
             else:
                 raise SyntaxError("error: bad statement")
         if len(tokens) > expr_token:
