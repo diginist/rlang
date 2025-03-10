@@ -1,6 +1,8 @@
 import sys
 from interpreter import Interpreter
 
+rlang_ver = "0.0.1"
+
 def run_file(filename, inp):
     try:
         with open(filename, 'r', encoding='utf-8') as f:
@@ -18,7 +20,13 @@ def run_file(filename, inp):
         print(f"Unexpected error: {e}")
         sys.exit(1)
 
+repl_notice = f"""R\033[90mlang
+
+version \033[0m{rlang_ver}
+\033[90m-\033[0m+\033[90m-\033[0m+\033[90m-\033[0m+\033[90m-\033[0m+\033[90m-\033[0m+\033[90m-\033[0m+\033[90m-\033[0m+\033[90m-\033[0m+\033[90m-\033[0m+\033[90m-"""
+
 def repl(inp):
+    print(repl_notice)
     while True:
         try:
             torun = input("\033[94;1m> \033[0;90m")
