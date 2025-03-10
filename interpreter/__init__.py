@@ -57,9 +57,9 @@ class Interpreter:
         try:
             self.run_line(line)
         except SyntaxError as e:
-            return f"SYNTAX ## {e}##"
+            return f"\033[91msyntax \033[0m@ \033[91;1m{line}\033[0m | \033[91m{e}\033[0m"
         except RuntimeError as e:
-            return f"INTERP ##{e}##"
+            return f"\033[91minterpreter \033[0m@ \033[91;1m{line}\033[0m | \033[91m{e}\033[0m"
         except KeyboardInterrupt:
             return " "
         
