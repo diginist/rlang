@@ -18,8 +18,6 @@ def run_file(filename, inp):
         print(f"Unexpected error: {e}")
         sys.exit(1)
 
-
-
 def repl(inp):
     while True:
         try:
