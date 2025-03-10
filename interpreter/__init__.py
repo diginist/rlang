@@ -18,6 +18,8 @@ class Interpreter:
         statement = tree[0]
         expr = tree[-1]
         match statement.type:
+            case "empty_statement":
+                pass
             case "type":
                 vtype = tree[0]['type']
                 var = tree[1]['var']

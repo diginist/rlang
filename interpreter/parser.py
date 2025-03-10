@@ -60,7 +60,9 @@ class Parser:
             else:
                 tree.append(Unit(statement))
         else:
-            if statement.endswith(":"):
+            if len(statement) == 0:
+                tree.append(Unit("empty_statement", {}))
+            elif statement.endswith(":"):
                 tree.append(Unit("oldvar", {'var': statement[:-1]}))
             else:
                 raise SyntaxError("error: bad statement")
