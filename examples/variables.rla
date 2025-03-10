@@ -1,5 +1,0 @@
-string hello: "Hello, world!"
-send hello
-
-string hello: "Redeclaration of hello variable"
-send hello
