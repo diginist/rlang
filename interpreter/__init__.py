@@ -49,18 +49,20 @@ class Interpreter:
 
     def run_line(self, line):
         self.next_line = self.line + 1
+        parsed = self.parser.parse(line)
+        self.execute(parsed)
+        self.line = self.next_line
+    
+    def run_line_wrapped(self, line):
         try:
-           parsed = self.parser.parse(line)
+            self.run_line(line)
         except SyntaxError as e:
-            return f"##{e}##"
-        try:
-            self.execute(parsed)
+            return f"SYNTAX ## {e}##"
         except RuntimeError as e:
-            return f"##{e}##"
+            return f"INTERP ##{e}##"
         except KeyboardInterrupt:
             return " "
-        self.line = self.next_line
-
+        
     def run(self, code):
         program = code.splitlines()
         while True:
